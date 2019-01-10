@@ -1,8 +1,8 @@
-# ts-transform-react-constant-elements
+# ts-transform-react-jsx-source
 
-![build status](https://travis-ci.org/dropbox/ts-transform-react-constant-elements.svg?branch=master)
+![build status](https://travis-ci.org/dropbox/ts-transform-react-jsx-source.svg?branch=master)
 
-This is a TypeScript AST Transformer that can speed up reconciliation and reduce garbage collection pressure by hoisting React elements to the highest possible scope, preventing multiple unnecessary reinstantiations, similar to [babel-plugin-transform-react-constant-elements](https://babeljs.io/docs/en/babel-plugin-transform-react-constant-elements).
+This is a TypeScript AST Transformer that adds source file and line number to JSX elements, similar to [babel-plugin-transform-react-jsx-source](https://babeljs.io/docs/en/babel-plugin-transform-react-jsx-source).
 
 ## Usage
 First of all, you need some level of familiarity with the [TypeScript Compiler API](https://github.com/Microsoft/TypeScript/wiki/Using-the-Compiler-API).
