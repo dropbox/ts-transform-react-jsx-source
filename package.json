@@ -1,0 +1,47 @@
+{
+  "name": "ts-transform-react-jsx-source",
+  "version": "1.0.0",
+  "description": "Adds source file and line number to JSX elements.",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "rm -rf test/fixture/*.js && tsc && mocha --require ts-node/register test/*.test.ts",
+    "prettier": "prettier --print-width=120 --tab-width=4 --single-quote --trailing-comma=es5 --no-semi --parser=typescript --write 'src/**/*.ts*' || true",
+    "prepublishOnly": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dropbox/ts-transform-react-jsx-source.git"
+  },
+  "keywords": [
+    "typescript",
+    "transform",
+    "ts",
+    "react",
+    "jsx",
+    "source"
+  ],
+  "author": "Long Ho <longho@dropbox.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/dropbox/ts-transform-react-jsx-source/issues"
+  },
+  "homepage": "https://github.com/dropbox/ts-transform-react-jsx-source#readme",
+  "dependencies": {
+    "typescript": "3"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/fs-extra": "^5.0.4",
+    "@types/glob": "^7.1.1",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.12.10",
+    "chai": "^4.2.0",
+    "fs-extra": "^7.0.1",
+    "glob": "^7.1.3",
+    "mocha": "^5.2.0",
+    "pre-commit": "^1.2.2",
+    "prettier": "^1.15.2",
+    "react": "^16.6.3",
+    "ts-node": "^7.0.1"
+  }
+}
