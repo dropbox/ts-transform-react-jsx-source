@@ -7,10 +7,7 @@ This is a TypeScript AST Transformer that adds source file and line number to JS
 ## Usage
 First of all, you need some level of familiarity with the [TypeScript Compiler API](https://github.com/Microsoft/TypeScript/wiki/Using-the-Compiler-API).
 
-`compile.ts` & tests should have examples of how this works. The available options are:
-
-### `verbose?: boolean`
-Enabling this will allow this transformer to log out which nodes are hoisted.
+`compile.ts` & tests should have examples of how this works.
 
 ## License
 
