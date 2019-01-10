@@ -5,9 +5,35 @@
 This is a TypeScript AST Transformer that adds source file and line number to JSX elements, similar to [babel-plugin-transform-react-jsx-source](https://babeljs.io/docs/en/babel-plugin-transform-react-jsx-source).
 
 ## Usage
+### Custom compiler
 First of all, you need some level of familiarity with the [TypeScript Compiler API](https://github.com/Microsoft/TypeScript/wiki/Using-the-Compiler-API).
 
 `compile.ts` & tests should have examples of how this works.
+
+### ts-loader
+You can add this in your webpack config `ts-loader`.
+```
+import {transform} from 'ts-transform-react-jsx-source';
+// webpack config
+...
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              getCustomTransformers() {
+                return {
+                  before: [transform()],
+                };
+              },
+            },
+          },
+        ],
+        exclude: /node_modules/,
+      },
+```
 
 ## License
 
