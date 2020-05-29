@@ -27,7 +27,10 @@
   },
   "homepage": "https://github.com/dropbox/ts-transform-react-jsx-source#readme",
   "dependencies": {
-    "typescript": "^3.9.3"
+    "typescript": "^3.8.0"
+  },
+  "peerDependencies": {
+    "ts-jest": "^26.0.0"
   },
   "devDependencies": {
     "@types/chai": "^4.2.11",
@@ -42,6 +45,7 @@
     "pre-commit": "^1.2.2",
     "prettier": "^2.0.5",
     "react": "^16.13.1",
+    "ts-jest": "^26.0.0",
     "ts-node": "^8.10.2"
   }
 }
