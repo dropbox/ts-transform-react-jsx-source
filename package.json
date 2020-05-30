@@ -4,7 +4,7 @@
   "description": "Adds source file and line number to JSX elements.",
   "main": "dist/index.js",
   "scripts": {
-    "test": "rm -rf test/fixture/*.js && tsc && mocha --require ts-node/register test/*.test.ts",
+    "test": "rm -rf test/fixture/*.js && tsc && jest",
     "prettier": "prettier --print-width=120 --tab-width=4 --single-quote --trailing-comma=es5 --no-semi --parser=typescript --write 'src/**/*.ts*' || true",
     "prepublishOnly": "tsc"
   },
@@ -33,19 +33,34 @@
     "ts-jest": "^26.0.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.11",
     "@types/fs-extra": "^9.0.1",
     "@types/glob": "^7.1.1",
-    "@types/mocha": "^7.0.2",
+    "@types/jest": "^25.2.3",
     "@types/node": "^14.0.5",
-    "chai": "^4.2.0",
+    "@types/react-dom": "^16.9.8",
     "fs-extra": "^9.0.0",
     "glob": "^7.1.6",
+    "husky": "^4.2.5",
+    "jest": "^26.0.1",
     "mocha": "^7.2.0",
-    "pre-commit": "^1.2.2",
     "prettier": "^2.0.5",
     "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "ts-jest": "^26.0.0",
     "ts-node": "^8.10.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run prettier && npm t"
+    }
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "globals": {
+      "ts-jest": {
+        "tsConfig": "./tsconfig.jest.json",
+        "astTransformers": ["./dist/ts-jest-integration.js"]
+      }
+    }
   }
 }

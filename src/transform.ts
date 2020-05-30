@@ -23,14 +23,10 @@ function nodeVisitor(ts: typeof TYPESCRIPT, ctx: TYPESCRIPT.TransformationContex
                 ts.createIdentifier('__source'),
                 ts.createJsxExpression(undefined, ts.createObjectLiteral([fileNameAttr, lineNumberAttr]))
             )
-
             const jsxAttributes = ts.createJsxAttributes([...node.attributes.properties, sourceJsxAttr])
-
-            if (ts.isJsxSelfClosingElement(node)) {
-                return ts.createJsxSelfClosingElement(node.tagName, node.typeArguments, jsxAttributes)
-            } else if (ts.isJsxOpeningElement(node)) {
-                return ts.createJsxOpeningElement(node.tagName, node.typeArguments, jsxAttributes)
-            }
+            const clonedNode = ts.getMutableClone(node)
+            clonedNode.attributes = jsxAttributes
+            return clonedNode
         }
         return ts.visitEachChild(node, visitor, ctx)
     }
