@@ -1,6 +1,6 @@
 {
   "name": "ts-transform-react-jsx-source",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Adds source file and line number to JSX elements.",
   "main": "dist/index.js",
   "scripts": {
