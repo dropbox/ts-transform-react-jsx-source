@@ -24,8 +24,7 @@ function nodeVisitor(ts: typeof TYPESCRIPT, ctx: TYPESCRIPT.TransformationContex
                 ts.createIdentifier('__source'),
                 ts.createJsxExpression(undefined, ts.createObjectLiteral([fileNameAttr, lineNumberAttr]))
             )
-        }
-        else if (ts.isJsxAttributes(node) && sourceJsxAttr) {
+        } else if (ts.isJsxAttributes(node) && sourceJsxAttr) {
             const attrs = [...node.properties, sourceJsxAttr]
             sourceJsxAttr = undefined
             return ctx.factory.updateJsxAttributes(node, attrs)
