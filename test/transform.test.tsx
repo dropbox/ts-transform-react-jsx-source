@@ -7,7 +7,7 @@ import * as ts from 'typescript'
 import {transform} from '../src'
 
 describe("transformer", function() {
-  it.skip("should hoist el with primitive attributes", function() {
+  it("should hoist el with primitive attributes", function() {
     const fileName = resolve(__dirname, "fixture/El.tsx")
     const {outputText} = ts.transpileModule(
       readFileSync(fileName, 'utf8'),

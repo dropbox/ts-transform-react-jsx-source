@@ -8,6 +8,7 @@
 import * as TYPESCRIPT from 'typescript'
 
 function nodeVisitor(ts: typeof TYPESCRIPT, ctx: TYPESCRIPT.TransformationContext, sf: TYPESCRIPT.SourceFile) {
+    let sourceJsxAttr: TYPESCRIPT.JsxAttributeLike | undefined
     const visitor: TYPESCRIPT.Visitor = (node) => {
         if (ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node)) {
             // Create fileName attr
@@ -19,14 +20,15 @@ function nodeVisitor(ts: typeof TYPESCRIPT, ctx: TYPESCRIPT.TransformationContex
             )
 
             // Create __source={{fileName, lineNumber}} JSX Attribute
-            const sourceJsxAttr = ts.createJsxAttribute(
+            sourceJsxAttr = ts.createJsxAttribute(
                 ts.createIdentifier('__source'),
                 ts.createJsxExpression(undefined, ts.createObjectLiteral([fileNameAttr, lineNumberAttr]))
             )
-            const jsxAttributes = ts.createJsxAttributes([...node.attributes.properties, sourceJsxAttr])
-            const clonedNode = ts.getMutableClone(node)
-            clonedNode.attributes = jsxAttributes
-            return clonedNode
+        }
+        else if (ts.isJsxAttributes(node) && sourceJsxAttr) {
+            const attrs = [...node.properties, sourceJsxAttr]
+            sourceJsxAttr = undefined
+            return ctx.factory.updateJsxAttributes(node, attrs)
         }
         return ts.visitEachChild(node, visitor, ctx)
     }
