@@ -7,33 +7,50 @@
  */
 import * as TYPESCRIPT from 'typescript'
 
-function nodeVisitor(ts: typeof TYPESCRIPT, ctx: TYPESCRIPT.TransformationContext, sf: TYPESCRIPT.SourceFile) {
-    let sourceJsxAttr: TYPESCRIPT.JsxAttributeLike | undefined
-    const visitor: TYPESCRIPT.Visitor = (node) => {
-        if (ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node)) {
-            // Create fileName attr
-            const fileNameAttr = ts.createPropertyAssignment('fileName', ts.createStringLiteral(sf.fileName))
-            // Create lineNumber attr
-            const lineNumberAttr = ts.createPropertyAssignment(
-                'lineNumber',
-                ts.createNumericLiteral(`${sf.getLineAndCharacterOfPosition(node.pos).line + 1}`)
-            )
+function nodeVisitor(
+  ts: typeof TYPESCRIPT,
+  ctx: TYPESCRIPT.TransformationContext,
+  sf: TYPESCRIPT.SourceFile
+) {
+  let sourceJsxAttr: TYPESCRIPT.JsxAttributeLike | undefined
+  const visitor: TYPESCRIPT.Visitor = (node) => {
+    if (ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node)) {
+      // Create fileName attr
+      const fileNameAttr = ctx.factory.createPropertyAssignment(
+        'fileName',
+        ctx.factory.createStringLiteral(sf.fileName)
+      )
+      // Create lineNumber attr
+      const lineNumberAttr = ctx.factory.createPropertyAssignment(
+        'lineNumber',
+        ctx.factory.createNumericLiteral(
+          sf.getLineAndCharacterOfPosition(node.pos).line + 1
+        )
+      )
 
-            // Create __source={{fileName, lineNumber}} JSX Attribute
-            sourceJsxAttr = ts.createJsxAttribute(
-                ts.createIdentifier('__source'),
-                ts.createJsxExpression(undefined, ts.createObjectLiteral([fileNameAttr, lineNumberAttr]))
-            )
-        } else if (ts.isJsxAttributes(node) && sourceJsxAttr) {
-            const attrs = [...node.properties, sourceJsxAttr]
-            sourceJsxAttr = undefined
-            return ctx.factory.updateJsxAttributes(node, attrs)
-        }
-        return ts.visitEachChild(node, visitor, ctx)
+      // Create __source={{fileName, lineNumber}} JSX Attribute
+      sourceJsxAttr = ctx.factory.createJsxAttribute(
+        ctx.factory.createIdentifier('__source'),
+        ctx.factory.createJsxExpression(
+          undefined,
+          ctx.factory.createObjectLiteralExpression([
+            fileNameAttr,
+            lineNumberAttr,
+          ])
+        )
+      )
+    } else if (ts.isJsxAttributes(node) && sourceJsxAttr) {
+      const attrs = [...node.properties, sourceJsxAttr]
+      sourceJsxAttr = undefined
+      return ctx.factory.updateJsxAttributes(node, attrs)
     }
-    return visitor
+    return ts.visitEachChild(node, visitor, ctx)
+  }
+  return visitor
 }
 
-export function transform(ts: typeof TYPESCRIPT = TYPESCRIPT): TYPESCRIPT.TransformerFactory<TYPESCRIPT.SourceFile> {
-    return (ctx) => (sf) => ts.visitNode(sf, nodeVisitor(ts, ctx, sf))
+export function transform(
+  ts: typeof TYPESCRIPT = TYPESCRIPT
+): TYPESCRIPT.TransformerFactory<TYPESCRIPT.SourceFile> {
+  return (ctx) => (sf) => ts.visitNode(sf, nodeVisitor(ts, ctx, sf))
 }
