@@ -24,7 +24,7 @@ function nodeVisitor(
       const lineNumberAttr = ctx.factory.createPropertyAssignment(
         'lineNumber',
         ctx.factory.createNumericLiteral(
-          sf.getLineAndCharacterOfPosition(node.pos).line + 1
+          ts.getLineAndCharacterOfPosition(sf, node.pos).line + 1
         )
       )
 
